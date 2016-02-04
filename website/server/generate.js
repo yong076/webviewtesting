@@ -56,7 +56,7 @@ glob('src/**/*.*', function(er, files) {
   });
 
   queue = queue.then(function() {
-    console.log('It is live at: http://facebook.github.io/react-native/');
+    console.log('Generated HTML files from JS');
   }).finally(function() {
     server.close();
   }).catch(function(e) {

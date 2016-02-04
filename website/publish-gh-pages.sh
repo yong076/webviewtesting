@@ -7,30 +7,28 @@
 # LICENSE file in the root directory of this source tree. An additional grant
 # of patent rights can be found in the PATENTS file in the same directory.
 
-# This script publishes to gh-pages of the private github repo.
-# It assumes you have a react-native-android-gh-pages folder next to your react-native-android folder.
-# You can clone that using:
-# git clone -b gh-pages git@github.com:facebook/react-native-android.git react-native-android-gh-pages
-
 set -e
 
 # Start in website/ even if run from root directory
 cd "$(dirname "$0")"
 
-cd ../../react-native-android-gh-pages
+cd ../../react-native-gh-pages
 git checkout -- .
 git clean -dfx
 git fetch
 git rebase
-rm -Rf *
-cd ../react-native-android/website
+rm -Rf $1
+mkdir ../../react-native-gh-pages/$1
+cd ../react-native/website
 node server/generate.js
-cp -R build/react-native/* ../../react-native-android-gh-pages/
+cp -R build/react-native/* ../../react-native-gh-pages/$1
+cp ../circle.yml ../../react-native-gh-pages/
 rm -Rf build/
-cd ../../react-native-android-gh-pages
+cd ../../react-native-gh-pages
 git status
+git add -A .
 if ! git diff-index --quiet HEAD --; then
-  git add -A .
   git commit -m "update website"
   git push origin gh-pages
 fi
+cd ../react-native/website
