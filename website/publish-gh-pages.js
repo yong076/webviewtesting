@@ -24,14 +24,16 @@ if (branch.indexOf('-stable') !== -1) {
   version = branch.slice(0, branch.indexOf('-stable'));
 }
 
+console.log({isPullRequest, isTravis, version})
+exit(0);
+
+
 if (exec(`node ./server/generate.js`).code !== 0) {
   echo('Error: Generating HTML failed');
 }
 
-console.log(`isPullRequest ${isPullRequest} isTravis ${isTravis } version ${version}`);
-
 if (!isPullRequest && isTravis && version) {
-  echo(`Building stable branch ${version}, preparing to push to ght-pages`);
+  echo(`Building stable branch ${version}, preparing to push to gh-pages`);
   // if code is running in a branch in CI, commit changes to gh-pages branch
   cd('build');
   rm('-rf', 'react-native-gh-pages');
@@ -68,7 +70,3 @@ if (!isPullRequest && isTravis && version) {
     }
   }
 }
-
-
-
-
