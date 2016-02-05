@@ -47,6 +47,7 @@ script:
 
     cd website
     npm install
+    echo "machine github.com login reactjs-bot password $GITHUB_TOKEN" >~/.netrc
     npm run setup
 
   elif [ "$TEST_TYPE" = e2e ]
