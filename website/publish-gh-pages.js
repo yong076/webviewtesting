@@ -29,7 +29,7 @@ if (exec(`node ./server/generate.js`).code !== 0) {
 }
 
 if (!isPullRequest && isTravis && version) {
-  echo(`Building stable branch ${version}, preparing to push to ght-pages`');
+  echo(`Building stable branch ${version}, preparing to push to ght-pages`);
   // if code is running in a branch in CI, commit changes to gh-pages branch
   cd('build');
   rm('-rf', 'react-native-gh-pages');
