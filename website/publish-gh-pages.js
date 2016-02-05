@@ -6,81 +6,67 @@
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  */
- 'use strict';
-/*
+'use strict';
 
-# Start in website/ even if run from root directory
-cd "$(dirname "$0")"
+const branch = process.env.TRAVIS_BRANCH;
+const isPullRequest = process.env.TRAVIS_PULL_REQUEST;
+const isTravis = process.env.TRAVIS;
+const remoteBranch = 'git://github.com/facebook/react-native.git';
+require('shelljs/global');
 
-cd ../../
-if [ "$TRAVIS" ]; then
-  git clone "https://reactjs-bot@github.com/facebook/react-native.git" react-native-gh-pages
-else
-  git clone git://github.com/facebook/react-native.git react-native-gh-pages
-fi
-cd react-native-gh-pages
-git checkout origin/gh-pages
-git checkout -b gh-pages
-git branch --set-upstream-to=origin/gh-pages
-cd ../react-native/website
+if (!which('git')) {
+  echo('Sorry, this script requires git');
+  exit(1);
+}
 
-    DOCS_VERSION=${TRAVIS_BRANCH%-stable}
-    cd website
-    $(which npm) install
-    ./setup.sh
-    if [ "$TRAVIS_PULL_REQUEST" = false ]
-    then
-      if [ "$TRAVIS_BRANCH" = master ]
-      then
-        # Automatically publish the website to /next path
-        echo "machine github.com login reactjs-bot password $GITHUB_TOKEN" >~/.netrc
-        ./publish-gh-pages.sh next
-      elif [[ "$TRAVIS_BRANCH" = *-stable ]]
-      then
-        # Automatically publish the website to /version path
-        echo "machine github.com login reactjs-bot password $GITHUB_TOKEN" >~/.netrc
-        ./publish-gh-pages.sh $DOCS_VERSION
-      fi
-    else
-      # Make sure the website builds without error
-      node server/generate.js
-    fi
+let version;
+if (branch.indexOf('-stable') !== -1) {
+  version = branch.slice(0, branch.indexOf('-stable'));
+}
 
-cd "$(dirname "$0")"
+if (exec(`node ./server/generate.js`).code !== 0) {
+  echo('Error: Generating HTML failed');
+}
 
-cd ../../react-native-gh-pages
-git checkout -- .
-git clean -dfx
-git fetch
-git rebase
-rm -Rf $1
-mkdir ../../react-native-gh-pages/$1
-cd ../react-native/website
-node server/generate.js
-cp -R build/react-native/* ../../react-native-gh-pages/$1
-cp ../circle.yml ../../react-native-gh-pages/
-rm -Rf build/
-cd ../../react-native-gh-pages
-git status
-git add -A .
-if ! git diff-index --quiet HEAD --; then
-  git commit -m "update website"
-  git push origin gh-pages
-fi
-cd ../react-native/website
+if (!isPullRequest && isTravis && version) {
+  echo(`Building stable branch ${version}, preparing to push to ght-pages`');
+  // if code is running in a branch in CI, commit changes to gh-pages branch
+  cd('build');
+  rm('-rf', 'react-native-gh-pages');
 
-*/
+  if (exec(`git clone ${remoteBranch} react-native-gh-pages`).code !== 0) {
+    echo('Error: Git clone failed');
+    exit(1);
+  }
 
-var branch = process.env.TRAVIS_BRANCH;
-var isPullRequest = process.env.TRAVIS_PULL_REQUEST;
-var isTravis = process.env.TRAVIS;
+  cd('react-native-gh-pages');
 
-console.log("RUNNING NODE", branch, isPullRequest, isTravis);
+  const checkoutCode = exec(`git checkout origin/gh-pages`).code;
+  checkoutCode += exec(`git checkout -b gh-pages`).code;
+  checkoutCode += exec(`git branch --set-upstream-to=origin/gh-pages`).code;
 
-var gitPromise = require('git-promise');
-var gitUtil = require('git-promise/util');
-//var del = require('del');
-var fs = require('fs');
-var os = require('os');
-//var generate = require('./server/generate.js');
+  if (checkoutCode !== 0) {
+    echo('Error: Git checkout gh-pages failed');
+    exit(1);
+  }
+
+  rm('-rf', `releases/${version}`);
+  mkdir('-p', `releases/${version}`);
+  exec(`cp -R ../react-native/* releases/${version}`);
+  exec(`cp ../../../circle.yml .`);
+
+  exec(`git status`);
+  exec(`git add -A .`);
+  if (exec(`git diff-index --quiet HEAD --`).code !== 0) {
+    const checkInCode = exec(`git commit -m "update website"`).code;
+    checkInCode += exec(`git push origin gh-pages`).code;
+    if (checkInCode !== 0) {
+      echo('Error: Git checkout gh-pages failed');
+      exit(1);    
+    }
+  }
+}
+
+
+
 
