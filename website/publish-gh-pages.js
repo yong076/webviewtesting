@@ -71,9 +71,9 @@ cd ../react-native/website
 
 */
 
-var branch = process.env['$TRAVIS_BRANCH'];
-var isPullRequest = process.env['$TRAVIS_PULL_REQUEST'];
-var isTravis = process.env['$TRAVIS'];
+var branch = process.env.TRAVIS_BRANCH;
+var isPullRequest = process.env.TRAVIS_PULL_REQUEST;
+var isTravis = process.env.$TRAVIS;
 
 console.log("RUNNING NODE", branch, isPullRequest, isTravis);
 
