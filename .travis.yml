@@ -44,31 +44,16 @@ script:
 
   elif [ "$TEST_TYPE" = build_website ]
   then
-    DOCS_VERSION=${TRAVIS_BRANCH%-stable}
+
     cd website
-    $(which npm) install
-    ./setup.sh
-    if [ "$TRAVIS_PULL_REQUEST" = false ]
-    then
-      if [ "$TRAVIS_BRANCH" = master ]
-      then
-        # Automatically publish the website to /next path
-        echo "machine github.com login reactjs-bot password $GITHUB_TOKEN" >~/.netrc
-        ./publish-gh-pages.sh next
-      elif [[ "$TRAVIS_BRANCH" = *-stable ]]
-      then
-        # Automatically publish the website to /version path
-        echo "machine github.com login reactjs-bot password $GITHUB_TOKEN" >~/.netrc
-        ./publish-gh-pages.sh $DOCS_VERSION
-      fi
-    else
-      # Make sure the website builds without error
-      node server/generate.js
-    fi
+    npm install
+    npm run setup
 
   elif [ "$TEST_TYPE" = e2e ]
   then
+
     ./scripts/e2e-test.sh
+
   else
     echo "Unknown test type: $TEST_TYPE"
     exit 1
