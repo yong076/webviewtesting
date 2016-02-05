@@ -9,7 +9,7 @@
 'use strict';
 
 const branch = process.env.TRAVIS_BRANCH;
-const isPullRequest = process.env.TRAVIS_PULL_REQUEST === 'false';
+const isPullRequest = process.env.TRAVIS_PULL_REQUEST !== 'false';
 const isTravis = process.env.TRAVIS;
 const remoteBranch = 'git://github.com/facebook/react-native.git';
 require('shelljs/global');
