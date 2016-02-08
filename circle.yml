@@ -26,10 +26,13 @@ dependencies:
   - npm install -g npm@3.2
   - source scripts/circle-ci-android-setup.sh && getAndroidSDK
   - ./gradlew :ReactAndroid:downloadBoost :ReactAndroid:downloadDoubleConversion :ReactAndroid:downloadFolly :ReactAndroid:downloadGlog
+  # website generation deps
+  - cd website && npm install
   cache_directories:
   - "ReactAndroid/build/downloads"
   - "buck"
   - "buck-out/bin"
+  - "website/node_modules"
 test:
   pre:
     # starting emulator in advance because it takes very long to boot
@@ -60,4 +63,14 @@ test:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
     - find . -type f -regex ".*/build/test-results/debug/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
     - find . -type f -regex ".*/outputs/androidTest-results/connected/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
+
+deployment:
+  website:
+    branch: [master, /-*stable/]
+    commands:
+      # TODO how do we allow CircleCI to push as reactjs-bot user?
+      # - echo "machine github.com login reactjs-bot password $GITHUB_TOKEN" >~/.netrc
+      # web site is generated for every buil
+      - cd website && npm run publish-website
+
 
