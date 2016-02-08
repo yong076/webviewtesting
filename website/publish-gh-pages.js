@@ -36,9 +36,11 @@ console.log({
   version // TODO version should be not empty
 });
 
-if (exec(`node ./server/generate.js`).code !== 0) {
-  echo(`Error: Generating HTML failed`);
-  exit(1);
+if (!test(`-d`, `src/react-native/docs`)) {
+  if (exec(`node ./server/generate.js`).code !== 0) {
+    echo(`Error: Generating HTML failed`);
+    exit(1);
+  }
 }
 
 if (!!version && !CI_PULL_REQUEST && CIRCLE_PROJECT_USERNAME === `bestander`) {
