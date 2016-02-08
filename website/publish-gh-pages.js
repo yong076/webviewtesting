@@ -8,7 +8,7 @@
  */
 'use strict';
 
-const CIRCLE_BRANCH = process.env.CIRCLE_BRANCH || '0.40-stable';
+const CIRCLE_BRANCH = process.env.CIRCLE_BRANCH;
 const CIRCLE_PROJECT_USERNAME = process.env.CIRCLE_PROJECT_USERNAME;
 const CIRCLE_PROJECT_REPONAME = process.env.CIRCLE_PROJECT_REPONAME;
 const CI_PULL_REQUESTS = process.env.CI_PULL_REQUESTS;
@@ -41,7 +41,7 @@ if (exec(`node ./server/generate.js`).code !== 0) {
   exit(1);
 }
 
-if (true) {
+if (!!version && !CI_PULL_REQUEST && CIRCLE_PROJECT_USERNAME === `bestander`) {
   echo(`Building stable branch ${version}, preparing to push to gh-pages`);
   // if code is running in a branch in CI, commit changes to gh-pages branch
   cd(`build`);
@@ -70,10 +70,13 @@ if (true) {
   exec(`git status`);
   exec(`git add -A .`);
   if (exec(`git diff-index --quiet HEAD --`).code !== 0) {
-//exec(`git push origin gh-pages`).code;
     if (exec(`git commit -m "update website"`).code !== 0) {
-      echo(`Error: Git checkout gh-pages failed`);
+      echo(`Error: Git commit gh-pages failed`);
       exit(1);    
+    }
+    if (exec(`git push origin gh-pages`).code !== 0) {
+      echo(`Error: Git push gh-pages failed`);
+      exit(1);
     }
   }
 }
