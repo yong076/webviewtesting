@@ -8,15 +8,13 @@
  */
 `use strict`;
 
-const {
-  CIRCLE_BRANCH,
-  CIRCLE_PROJECT_USERNAME,
-  CIRCLE_PROJECT_REPONAME,
-  CIRCLE_COMPARE_URL,
-  CI_PULL_REQUESTS,
-  CI_PULL_REQUEST,
-  CIRCLE_USERNAME,
-} = process.env;
+const CIRCLE_BRANCH = process.env.CIRCLE_BRANCH;
+const CIRCLE_PROJECT_USERNAME = process.env.CIRCLE_PROJECT_USERNAME;
+const CIRCLE_PROJECT_REPONAME = process.env.CIRCLE_PROJECT_REPONAME;
+const CIRCLE_COMPARE_URL = process.env.CIRCLE_COMPARE_URL;
+const CI_PULL_REQUESTS = process.env.CI_PULL_REQUESTS;
+const CI_PULL_REQUEST = process.env.CI_PULL_REQUEST;
+const CIRCLE_USERNAME = process.env.CIRCLE_USERNAME;
 
 // TODO temp
 const remoteBranch = 'git://github.com/bestander/react-native.git';
