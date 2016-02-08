@@ -1,7 +1,7 @@
 {
   "scripts": {
     "start": "node server/server.js",
-    "publish-website": "node publish-gh-pages.js"
+    "deploy": "node publish-gh-pages.js"
   },
   "dependencies": {
     "bluebird": "^2.9.21",
