@@ -13,7 +13,6 @@ const CIRCLE_PROJECT_USERNAME = process.env.CIRCLE_PROJECT_USERNAME;
 const CIRCLE_PROJECT_REPONAME = process.env.CIRCLE_PROJECT_REPONAME;
 const CI_PULL_REQUESTS = process.env.CI_PULL_REQUESTS;
 const CI_PULL_REQUEST = process.env.CI_PULL_REQUEST;
-const CIRCLE_USERNAME = process.env.CIRCLE_USERNAME;
 // TODO temp
 const remoteBranch = 'git://github.com/bestander/react-native.git';
 require(`shelljs/global`);
@@ -30,12 +29,11 @@ if (CIRCLE_BRANCH.indexOf(`-stable`) !== -1) {
 
 console.log({
   CIRCLE_BRANCH,
-  CIRCLE_PROJECT_USERNAME,
-  CIRCLE_PROJECT_REPONAME,
+  CIRCLE_PROJECT_USERNAME, // TODO facebook
+  CIRCLE_PROJECT_REPONAME, // TODO react-native
   CI_PULL_REQUESTS,
-  CI_PULL_REQUEST,
-  CIRCLE_USERNAME,
-  version
+  CI_PULL_REQUEST, // TODO should be empty, we build only branch
+  version // TODO version should be not empty
 });
 
 if (exec(`node ./server/generate.js`).code !== 0) {
