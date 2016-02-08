@@ -19,7 +19,7 @@ dependencies:
 #  - buck/bin/buck --version
 #  - buck/bin/buck fetch ReactAndroid/src/test/java/com/facebook/react/modules
 #  - buck/bin/buck fetch ReactAndroid/src/main/java/com/facebook/react
-#  - buck/bin/buck fetch ReactAndroid/src/main/java/com/facebook/react/shell
+  - buck/bin/buck fetch ReactAndroid/src/main/java/com/facebook/react/shell
 #  - buck/bin/buck fetch ReactAndroid/src/test/...
 #  - buck/bin/buck fetch ReactAndroid/src/androidTest/...
   # using npm@3 because of problems with shrink-wrapped optional deps installs on linux
@@ -45,7 +45,7 @@ test:
   override:
     # buck tests
 #    - buck/bin/buck test ReactAndroid/src/test/... --config build.threads=1
-    - buck/bin/buck build ReactAndroid/src/main/java/com/facebook/react
+#    - buck/bin/buck build ReactAndroid/src/main/java/com/facebook/react
     - buck/bin/buck build ReactAndroid/src/main/java/com/facebook/react/shell
 #    # temp, we can't run instrumentation tests yet
 #    - buck/bin/buck build ReactAndroid/src/androidTest/java/com/facebook/react/tests
@@ -66,7 +66,7 @@ test:
 
 deployment:
   website:
-    branch: [master, /-*stable/]
+    branch: /-*stable/
     commands:
       # TODO how do we allow CircleCI to push as reactjs-bot user?
       # - echo "machine github.com login reactjs-bot password $GITHUB_TOKEN" >~/.netrc
