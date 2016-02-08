@@ -15,7 +15,6 @@ const CIRCLE_COMPARE_URL = process.env.CIRCLE_COMPARE_URL;
 const CI_PULL_REQUESTS = process.env.CI_PULL_REQUESTS;
 const CI_PULL_REQUEST = process.env.CI_PULL_REQUEST;
 const CIRCLE_USERNAME = process.env.CIRCLE_USERNAME;
-https://github.com/nodejs/node/pull/5020
 // TODO temp
 const remoteBranch = 'git://github.com/bestander/react-native.git';
 require(`shelljs/global`);
