@@ -38,6 +38,7 @@ console.log({
 
 if (exec(`node ./server/generate.js`).code !== 0) {
   echo(`Error: Generating HTML failed`);
+  exit(1);
 }
 
 if (true) {
