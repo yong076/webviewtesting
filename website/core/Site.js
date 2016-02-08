@@ -12,6 +12,8 @@
 var React = require('React');
 var HeaderLinks = require('HeaderLinks');
 
+//releases/0.40/
+
 var Site = React.createClass({
   render: function() {
     var title = this.props.title ? this.props.title + ' – ' : '';
@@ -29,6 +31,8 @@ var Site = React.createClass({
           <meta property="og:image" content="http://facebook.github.io/react-native/img/opengraph.png?2" />
           <meta property="og:description" content="A framework for building native apps using React" />
 
+          <base href="/react-native/"
+
           <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css" />
 
           <link rel="shortcut icon" href="/react-native/img/favicon.png?2" />
@@ -42,8 +46,8 @@ var Site = React.createClass({
           <div className="container">
             <div className="nav-main">
               <div className="wrap">
-                <a className="nav-home" href="/react-native/">
-                  <img src="/react-native/img/header_logo.png" />
+                <a className="nav-home" href="/">
+                  <img src="img/header_logo.png" />
                   React Native
                 </a>
                 <HeaderLinks section={this.props.section} />
@@ -71,7 +75,7 @@ var Site = React.createClass({
             fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
           `}} />
           <script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.js"></script>
-          <script src="/react-native/js/scripts.js" />
+          <script src="js/scripts.js" />
         </body>
       </html>
     );

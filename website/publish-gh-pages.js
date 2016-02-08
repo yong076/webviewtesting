@@ -8,7 +8,7 @@
  */
 'use strict';
 
-const CIRCLE_BRANCH = process.env.CIRCLE_BRANCH;
+const CIRCLE_BRANCH = process.env.CIRCLE_BRANCH || '0.40-stable';
 const CIRCLE_PROJECT_USERNAME = process.env.CIRCLE_PROJECT_USERNAME;
 const CIRCLE_PROJECT_REPONAME = process.env.CIRCLE_PROJECT_REPONAME;
 const CI_PULL_REQUESTS = process.env.CI_PULL_REQUESTS;
@@ -64,7 +64,7 @@ if (true) {
 
   rm(`-rf`, `releases/${version}`);
   mkdir(`-p`, `releases/${version}`);
-  exec('cp -R ../react-native/* releases/${version}');
+  exec(`cp -R ../react-native/* releases/${version}`);
   exec(`cp ../../../circle.yml .`);
 
   exec(`git status`);
