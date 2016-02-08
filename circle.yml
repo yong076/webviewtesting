@@ -70,7 +70,9 @@ deployment:
     commands:
       # TODO how do we allow CircleCI to push as reactjs-bot user?
       # - echo "machine github.com login reactjs-bot password $GITHUB_TOKEN" >~/.netrc
-      # web site is generated for every buil
+      # web site is generated for every build
+      - git config --global user.email "bestnader@fb.com"
+      - git config --global user.name "Website Deployment Script"
       - echo "machine github.com login bestander password $GITHUB_TOKEN" >~/.netrc
       - cd website && npm run publish-website
 

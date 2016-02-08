@@ -47,8 +47,6 @@ if (true) {
   cd(`build`);
   rm(`-rf`, `react-native-gh-pages`);
 
-  exec(`git config --global user.email "bestnader@fb.com"`);
-  exec(`git config --global user.name "Website Deployment Script"`);
   if (exec(`git clone ${remoteBranch} react-native-gh-pages`).code !== 0) {
     echo(`Error: Git clone failed`);
     exit(1);
