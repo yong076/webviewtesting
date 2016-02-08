@@ -14,6 +14,10 @@ var HeaderLinks = require('HeaderLinks');
 
 var Site = React.createClass({
   render: function() {
+    console.log("process.env", process.env)
+    var basePath = process.env.REACT_DEPLOYMENT_PATH ?
+      '/react-native/' + process.env.REACT_DEPLOYMENT_PATH + '/':
+      '/react-native/';
     var title = this.props.title ? this.props.title + ' – ' : '';
     title += 'React Native | A framework for building native apps using React';
     return (
@@ -29,7 +33,7 @@ var Site = React.createClass({
           <meta property="og:image" content="http://facebook.github.io/react-native/img/opengraph.png?2" />
           <meta property="og:description" content="A framework for building native apps using React" />
 
-          <base href="/react-native/releases/0.40/" />
+          <base href={basePath} />
 
           <link rel="stylesheet" href="https://cdn.jsdelivr.net/docsearch.js/1/docsearch.min.css" />
 

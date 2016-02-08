@@ -14,7 +14,7 @@ const CIRCLE_PROJECT_REPONAME = process.env.CIRCLE_PROJECT_REPONAME;
 const CI_PULL_REQUESTS = process.env.CI_PULL_REQUESTS;
 const CI_PULL_REQUEST = process.env.CI_PULL_REQUEST;
 // TODO temp
-const remoteBranch = `https://bestander:${process.env.$GITHUB_TOKEN}@github.com/bestander/react-native.git`;
+const remoteBranch = `https://bestander:${process.env.GITHUB_TOKEN}@github.com/bestander/react-native.git`;
 require(`shelljs/global`);
 
 if (!which(`git`)) {
@@ -36,11 +36,10 @@ console.log({
   version // TODO version should be not empty
 });
 
-if (!test(`-d`, `src/react-native/docs`)) {
-  if (exec(`node ./server/generate.js`).code !== 0) {
-    echo(`Error: Generating HTML failed`);
-    exit(1);
-  }
+rm(`-rf`, `build`);
+if (exec(`REACT_DEPLOYMENT_PATH=/releases/${version} node ./server/generate.js`).code !== 0) {
+  echo(`Error: Generating HTML failed`);
+  exit(1);
 }
 
 if (!!version && !CI_PULL_REQUEST && CIRCLE_PROJECT_USERNAME === `bestander`) {
