@@ -33,15 +33,15 @@ if (branch.indexOf(`-stable`) !== -1) {
 }
 
 console.log({
-              CIRCLE_BRANCH,
-              CIRCLE_PROJECT_USERNAME,
-              CIRCLE_PROJECT_REPONAME,
-              CIRCLE_COMPARE_URL,
-              CI_PULL_REQUESTS,
-              CI_PULL_REQUEST,
-              CIRCLE_USERNAME,
-              version
-            });
+  CIRCLE_BRANCH,
+  CIRCLE_PROJECT_USERNAME,
+  CIRCLE_PROJECT_REPONAME,
+  CIRCLE_COMPARE_URL,
+  CI_PULL_REQUESTS,
+  CI_PULL_REQUEST,
+  CIRCLE_USERNAME,
+  version
+});
 
 if (exec(`node ./server/generate.js`).code !== 0) {
   echo(`Error: Generating HTML failed`);
