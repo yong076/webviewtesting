@@ -14,7 +14,7 @@ const CIRCLE_PROJECT_REPONAME = process.env.CIRCLE_PROJECT_REPONAME;
 const CI_PULL_REQUESTS = process.env.CI_PULL_REQUESTS;
 const CI_PULL_REQUEST = process.env.CI_PULL_REQUEST;
 // TODO temp
-const remoteBranch = 'https://github.com/bestander/react-native.git';
+const remoteBranch = 'https://bestander:process.env.$GITHUB_TOKEN@github.com/bestander/react-native.git';
 require(`shelljs/global`);
 
 if (!which(`git`)) {
