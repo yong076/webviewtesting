@@ -15,7 +15,7 @@ const CIRCLE_COMPARE_URL = process.env.CIRCLE_COMPARE_URL;
 const CI_PULL_REQUESTS = process.env.CI_PULL_REQUESTS;
 const CI_PULL_REQUEST = process.env.CI_PULL_REQUEST;
 const CIRCLE_USERNAME = process.env.CIRCLE_USERNAME;
-
+https://github.com/nodejs/node/pull/5020
 // TODO temp
 const remoteBranch = 'git://github.com/bestander/react-native.git';
 require(`shelljs/global`);
@@ -26,8 +26,8 @@ if (!which(`git`)) {
 }
 
 let version;
-if (branch.indexOf(`-stable`) !== -1) {
-  version = CIRCLE_BRANCH.slice(0, branch.indexOf(`-stable`));
+if (CIRCLE_BRANCH.indexOf(`-stable`) !== -1) {
+  version = CIRCLE_BRANCH.slice(0, CIRCLE_BRANCH.indexOf(`-stable`));
 }
 
 console.log({
@@ -45,7 +45,7 @@ if (exec(`node ./server/generate.js`).code !== 0) {
   echo(`Error: Generating HTML failed`);
 }
 
-if (!isPullRequest && isTravis && version) {
+if (true) {
   echo(`Building stable branch ${version}, preparing to push to gh-pages`);
   // if code is running in a branch in CI, commit changes to gh-pages branch
   cd(`build`);
