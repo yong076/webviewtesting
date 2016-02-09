@@ -8,12 +8,12 @@
  */
 'use strict';
 
-const CIRCLE_BRANCH = process.env.CIRCLE_BRANCH || 'master';
-const CIRCLE_PROJECT_USERNAME = process.env.CIRCLE_PROJECT_USERNAME || 'bestander';
+const CIRCLE_BRANCH = process.env.CIRCLE_BRANCH;
+const CIRCLE_PROJECT_USERNAME = process.env.CIRCLE_PROJECT_USERNAME;
 const CIRCLE_PROJECT_REPONAME = process.env.CIRCLE_PROJECT_REPONAME;
 const CI_PULL_REQUESTS = process.env.CI_PULL_REQUESTS;
 const CI_PULL_REQUEST = process.env.CI_PULL_REQUEST;
-const GIT_USER = process.env.GIT_USER || 'bestander';
+const GIT_USER = process.env.GIT_USER;
 // TODO hardcode
 const remoteBranch = `https://${GIT_USER}@github.com/bestander/react-native.git`;
 require(`shelljs/global`);
@@ -42,6 +42,9 @@ console.log({
 
 rm(`-rf`, `build`);
 mkdir(`-p`, `build`);
+// if current commit is tagged "latest" we do a release to gh-pages root
+let currentCommit = exec(`git rev-parse HEAD`).stdout;
+let latestTagCommit = exec(`git rev-list -n 1 latest`).stdout;
 
 // TODO hardcode
 if (!CI_PULL_REQUEST && CIRCLE_PROJECT_USERNAME === `bestander`) {
@@ -74,11 +77,8 @@ if (!CI_PULL_REQUEST && CIRCLE_PROJECT_USERNAME === `bestander`) {
       exit(1);
     }
     cd(`build/react-native-gh-pages`);
-    exec(`cp -R ../../react-native/* releases/${version}`);
+    exec(`cp -R ../react-native/* releases/${version}`);
   }
-  // if current commit is tagged "latest" we do a release to gh-pages root
-  let currentCommit = exec(`git rev-parese HEAD`);
-  let latestTagCommit = exec(`git rev-list -n latest`);
   if (currentCommit === latestTagCommit) {
     // leave only releases folder
     rm(`-rf`, ls(`*`).filter(name => name !== 'releases'));
@@ -88,9 +88,9 @@ if (!CI_PULL_REQUEST && CIRCLE_PROJECT_USERNAME === `bestander`) {
       exit(1);
     }
     cd(`build/react-native-gh-pages`);
-    exec(`cp -R ../../react-native/* .`);
+    exec(`cp -R ../react-native/* .`);
   }
-  if (false && (currentCommit === latestTagCommit || version)) {
+  if (currentCommit === latestTagCommit || version) {
     exec(`git status`);
     exec(`git add -A .`);
     if (exec(`git diff-index --quiet HEAD --`).code !== 0) {
