@@ -70,14 +70,13 @@ test:
 
 deployment:
   website:
-    branch: /.*-stable/
+    branch: [/.*-stable/, /master/]
     commands:
       # generate docs website
       # TODO reach out to ben to get react-js user auth
       - git config --global user.email "bestnader@fb.com"
       - git config --global user.name "Website Deployment Script"
-      - export GIT_USER=bestander
       - echo "machine github.com login bestander password $GITHUB_TOKEN" > ~/.netrc
-      - cd website && npm run deploy
+      - cd website && GIT_USER=bestander npm run deploy
 
 
