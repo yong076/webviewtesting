@@ -76,7 +76,7 @@ if (!!version && !CI_PULL_REQUEST && CIRCLE_PROJECT_USERNAME === `bestander`) {
   exec(`git status`);
   exec(`git add -A .`);
   if (exec(`git diff-index --quiet HEAD --`).code !== 0) {
-    if (exec(`git commit -m "update website"`).code !== 0) {
+    if (exec(`git commit -m "Updated docs for ${version}"`).code !== 0) {
       echo(`Error: Git commit gh-pages failed`);
       exit(1);    
     }
