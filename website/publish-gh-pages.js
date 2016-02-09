@@ -68,11 +68,12 @@ if (!CI_PULL_REQUEST && CIRCLE_PROJECT_USERNAME === `bestander`) {
   if (!!version) {
     rm(`-rf`, `releases/${version}`);
     mkdir(`-p`, `releases/${version}`);
-
-    if (exec(`RN_DEPLOYMENT_PATH=releases/${version} node ../../server/generate.js`).code !== 0) {
+    cd(`../..`);
+    if (exec(`RN_DEPLOYMENT_PATH=releases/${version} node server/generate.js`).code !== 0) {
       echo(`Error: Generating HTML failed`);
       exit(1);
     }
+    cd(`build/react-native-gh-pages`);
     exec(`cp -R ../../react-native/* releases/${version}`);
   }
   // if current commit is tagged "latest" we do a release to gh-pages root
@@ -81,13 +82,15 @@ if (!CI_PULL_REQUEST && CIRCLE_PROJECT_USERNAME === `bestander`) {
   if (currentCommit === latestTagCommit) {
     // leave only releases folder
     rm(`-rf`, ls(`*`).filter(name => name !== 'releases'));
-    if (exec(`node ../../server/generate.js`).code !== 0) {
+    cd(`../..`);
+    if (exec(`node server/generate.js`).code !== 0) {
       echo(`Error: Generating HTML failed`);
       exit(1);
     }
+    cd(`build/react-native-gh-pages`);
     exec(`cp -R ../../react-native/* .`);
   }
-  if (false && currentCommit === latestTagCommit || version) {
+  if (false && (currentCommit === latestTagCommit || version)) {
     exec(`git status`);
     exec(`git add -A .`);
     if (exec(`git diff-index --quiet HEAD --`).code !== 0) {
