@@ -77,7 +77,9 @@ deployment:
       # web site is generated for every build
       - git config --global user.email "bestnader@fb.com"
       - git config --global user.name "Website Deployment Script"
-      - echo "machine github.com login bestander password $GITHUB_TOKEN" >~/.netrc
+      - cat ~/.netrc
+      - echo "machine github.com login bestander password $GITHUB_TOKEN" > ~/.netrc
+      - cat ~/.netrc
       - cd website && npm run deploy
 
 
