@@ -13,7 +13,8 @@ const CIRCLE_PROJECT_USERNAME = process.env.CIRCLE_PROJECT_USERNAME;
 const CIRCLE_PROJECT_REPONAME = process.env.CIRCLE_PROJECT_REPONAME;
 const CI_PULL_REQUESTS = process.env.CI_PULL_REQUESTS;
 const CI_PULL_REQUEST = process.env.CI_PULL_REQUEST;
-const remoteBranch = `https://bestander@github.com/bestander/react-native.git`;
+const GIT_USER = process.env.GIT_USER;
+const remoteBranch = `https://${GIT_USER}@github.com/${GIT_USER}/react-native.git`;
 require(`shelljs/global`);
 
 if (!which(`git`)) {
@@ -26,6 +27,7 @@ if (CIRCLE_BRANCH.indexOf(`-stable`) !== -1) {
   version = CIRCLE_BRANCH.slice(0, CIRCLE_BRANCH.indexOf(`-stable`));
 }
 
+// TODO remove before submitting PR
 console.log({
   CIRCLE_BRANCH,
   CIRCLE_PROJECT_USERNAME, // TODO facebook
@@ -41,7 +43,7 @@ if (exec(`RN_DEPLOYMENT_PATH=/releases/${version} node ./server/generate.js`).co
   exit(1);
 }
 
-if (!!version && !CI_PULL_REQUEST && CIRCLE_PROJECT_USERNAME === `bestander`) {
+if (!!version && !CI_PULL_REQUEST && CIRCLE_PROJECT_USERNAME === GIT_USER) {
   echo(`Building stable branch ${version}, preparing to push to gh-pages`);
   // if code is running in a branch in CI, commit changes to gh-pages branch
   cd(`build`);
