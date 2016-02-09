@@ -37,7 +37,7 @@ console.log({
 });
 
 rm(`-rf`, `build`);
-if (exec(`REACT_DEPLOYMENT_PATH=/releases/${version} node ./server/generate.js`).code !== 0) {
+if (exec(`RN_DEPLOYMENT_PATH=/releases/${version} node ./server/generate.js`).code !== 0) {
   echo(`Error: Generating HTML failed`);
   exit(1);
 }

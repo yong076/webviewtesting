@@ -11,12 +11,12 @@
 
 var React = require('React');
 var HeaderLinks = require('HeaderLinks');
+var Metadata = require('Metadata');
 
 var Site = React.createClass({
   render: function() {
-    console.log("process.env", process.env)
-    var basePath = process.env.REACT_DEPLOYMENT_PATH ?
-      '/react-native/' + process.env.REACT_DEPLOYMENT_PATH + '/':
+    var basePath = Metadata.config.RN_DEPLOYMENT_PATH ?
+      '/react-native/' +Metadata.config.RN_DEPLOYMENT_PATH + '/':
       '/react-native/';
     var title = this.props.title ? this.props.title + ' – ' : '';
     title += 'React Native | A framework for building native apps using React';
@@ -48,7 +48,7 @@ var Site = React.createClass({
           <div className="container">
             <div className="nav-main">
               <div className="wrap">
-                <a className="nav-home" href="/">
+                <a className="nav-home" href="">
                   <img src="img/header_logo.png" />
                   React Native
                 </a>
