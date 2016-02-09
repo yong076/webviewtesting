@@ -17,7 +17,7 @@ var Site = React.createClass({
   render: function() {
     var basePath = Metadata.config.RN_DEPLOYMENT_PATH ?
       '/react-native/' +Metadata.config.RN_DEPLOYMENT_PATH + '/':
-      '/react-native';
+      '/react-native/';
     var title = this.props.title ? this.props.title + ' – ' : '';
     title += 'React Native | A framework for building native apps using React';
     return (
