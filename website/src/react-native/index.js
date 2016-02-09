@@ -17,7 +17,7 @@ var index = React.createClass({
       <Site>
         <div className="hero">
           <div className="wrap">
-            <div className="text"><strong>React Native 0.40 latest</strong></div>
+            <div className="text"><strong>React Native 0.41</strong></div>
             <div className="minitext">
               A framework for building native apps using React
             </div>
